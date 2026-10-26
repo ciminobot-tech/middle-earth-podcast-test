@@ -1,6 +1,670 @@
 <!doctype html>
-<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Middle-earth · Interactive audio</title>
-<style>
-@import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Instrument+Serif:ital@0;1&display=swap');
-:root{--bg:#000;--ink:#f5f5f7;--muted:#a6a6ab}*{box-sizing:border-box}html,body{margin:0;background:#000;color:var(--ink);font-family:"DM Sans",Arial,sans-serif}button,input{font:inherit}button{cursor:pointer}button:focus-visible,input:focus-visible{outline:3px solid #fff;outline-offset:3px}.page{padding:14px;min-height:100vh;background:#000}.home{max-width:1920px;margin:auto;overflow:hidden}.featured{height:min(645px,75vh);min-height:515px;position:relative;border-radius:3px;overflow:hidden;display:flex;align-items:flex-end;padding:0 clamp(40px,4.25vw,70px) 117px;isolation:isolate}.featured:before{content:"";position:absolute;inset:0;background:linear-gradient(90deg,#080909 0%,#080909d9 18%,#08090974 39%,#08090906 68%),linear-gradient(0deg,#000 0%,#0000 37%),url('assets/before-sauron-hero.png') 54% center/cover;z-index:-1}.brand{position:absolute;z-index:2;top:37px;left:clamp(26px,3vw,43px);height:39px;padding:0 17px 0 11px;border-radius:22px;background:#151517d9;display:flex;align-items:center;gap:8px;font-size:17px;font-weight:700}.brand-icon{width:24px;height:24px;border-radius:50%;background:#000;border:1px solid #444;display:grid;place-items:center;font:16px Georgia,serif}.back{font-size:31px;line-height:1;font-weight:300;color:#fff}.feature-copy{max-width:425px}.show-title{font-family:"Instrument Serif",Georgia,serif;font-size:clamp(56px,5vw,79px);font-weight:400;line-height:.82;letter-spacing:-.07em;margin:0 0 15px}.show-title span{display:block;font-family:"DM Sans",Arial,sans-serif;font-size:.39em;font-weight:700;letter-spacing:.17em;line-height:1.1;margin:2px 0 8px}.show-meta{font-size:13px;font-weight:600;margin-bottom:12px}.show-meta i{font-style:normal;color:#bbb;margin:0 7px}.feature-copy p{max-width:370px;margin:0 0 18px;font-size:15px;line-height:1.42}.go{border:0;border-radius:7px;background:#f5f5f7;color:#111;padding:13px 39px;font-size:16px;font-weight:700}.dots{position:absolute;z-index:2;bottom:127px;left:50%;transform:translateX(-50%);display:flex;gap:7px}.dots i{width:7px;height:7px;background:#68686b;border-radius:50%}.dots i:first-child{background:#eee}.rail-wrap{position:relative;z-index:3;margin-top:-102px;padding-left:clamp(40px,4.25vw,70px)}.rail-title{font-size:23px;letter-spacing:-.04em;margin:0 0 9px;font-weight:700}.rail{display:flex;gap:25px;overflow-x:auto;padding:0 20px 28px 0;scrollbar-width:none}.rail::-webkit-scrollbar{display:none}.item{flex:0 0 min(16.4vw,215px);min-width:170px;color:#fff;text-decoration:none}.poster{width:100%;aspect-ratio:1.77;border-radius:14px;background-position:center;background-size:cover;box-shadow:0 7px 16px #0007;transition:transform .18s,box-shadow .18s}.item:hover .poster{transform:scale(1.035);box-shadow:0 13px 26px #000}.item strong{display:block;margin-top:8px;font-size:16px;line-height:1.15}.item small{display:block;color:#95959a;font-size:15px;margin-top:1px}.before{background-image:url('assets/before-sauron-hero.png')}.first{background-image:url('assets/first-age-catalogue.png')}.rings{background-image:url('assets/rings-catalogue.png')}.third{background-image:url('assets/third-age-catalogue.png')}.after{background-image:url('assets/after-ring-catalogue.png')}.section{padding:4px clamp(40px,4.25vw,70px) 42px}.section h2{font-size:23px;letter-spacing:-.04em;margin:0 0 10px}.continue{display:flex;align-items:center;gap:14px;min-width:325px;padding:9px;border:0;border-radius:8px;background:#1d1d20;color:#fff;text-align:left}.continue img{width:119px;height:67px;object-fit:cover;border-radius:5px}.continue small{color:#a1a1a6}.continue strong{display:block;margin-top:2px}.player{display:none;position:fixed;z-index:10;inset:0;background:#000}.player.open{display:block}.player-art{position:absolute;inset:0;background:linear-gradient(0deg,#000 0%,#000b 34%,#0001 74%,#0008),url('assets/before-sauron-hero.png') center/cover}.exit{position:absolute;z-index:2;top:26px;left:30px;width:38px;height:38px;border:0;border-radius:50%;background:#222c;color:#fff;font-size:25px}.player-copy{position:absolute;z-index:1;left:clamp(28px,9vw,150px);right:clamp(28px,9vw,150px);bottom:8vh}.player-copy .eyebrow{font-size:12px;font-weight:700;letter-spacing:.1em;text-transform:uppercase}.player-copy h2{font-family:"Instrument Serif",Georgia,serif;font-size:clamp(45px,5vw,74px);letter-spacing:-.06em;line-height:.85;margin:7px 0 13px}.player-copy p{max-width:570px;margin:0;color:#ddd;line-height:1.46}.preview{font-size:12px;color:#b0b0b4;margin-top:10px}.timeline{height:4px;background:#ffffff55;margin-top:20px}.timeline b{display:block;height:100%;width:0;background:white}.times{display:flex;justify-content:space-between;font-size:12px;margin:7px 0 13px;color:#cacacf}.controls{display:flex;align-items:center;gap:12px}.round{height:45px;width:45px;border:0;border-radius:50%;background:#fff;color:#000;font-weight:700}.ask{border:1px solid #ffffff4b;background:#ffffff1e;color:#fff;border-radius:6px;padding:11px 14px;font-weight:600}.panel{display:none;position:absolute;z-index:3;right:clamp(18px,5vw,78px);bottom:8vh;width:min(415px,calc(100% - 36px));background:#19191cdf;border:1px solid #ffffff2a;border-radius:10px;padding:20px;box-shadow:0 22px 60px #000b;backdrop-filter:blur(16px)}.panel.show{display:block}.panel h3{font-size:18px;margin:0 0 5px}.panel p{font-size:13px;color:#c7c7ca;margin:0 0 13px;line-height:1.42}.quick{display:flex;flex-wrap:wrap;gap:7px;margin-bottom:12px}.quick button{border:1px solid #ffffff3d;border-radius:15px;background:#ffffff13;color:#fff;padding:7px 10px;font-size:12px}.answer{display:none;padding:10px;border-left:2px solid #fff;background:#080809a6;font-size:13px;line-height:1.45;margin-bottom:12px}.answer.show{display:block}.question{display:flex;gap:7px}.question input{min-width:0;flex:1;padding:10px;border:1px solid #ffffff38;border-radius:5px;background:#080809;color:#fff;font-size:12px}.question button{border:0;border-radius:5px;background:#fff;color:#000;padding:0 11px;font-size:12px;font-weight:700}@media(max-width:700px){.page{padding:0}.featured{min-height:550px;height:72vh;border-radius:0;padding:0 25px 112px}.featured:before{background-image:linear-gradient(0deg,#000 0%,#0000 66%),url('assets/before-sauron-hero.png');background-position:60% center}.brand{top:22px;left:19px}.show-title{font-size:61px}.rail-wrap{margin-top:-91px;padding-left:20px}.rail-title{font-size:20px}.rail{gap:16px}.item{flex-basis:64vw}.section{padding:4px 20px 34px}.dots{bottom:114px}.player-copy{left:24px;right:24px;bottom:48px}.panel{right:18px;bottom:20px}}@media(prefers-reduced-motion:reduce){*{transition:none!important}}
-</style></head><body><div class="page"><main class="home"><section class="featured"><div class="brand"><span class="back">‹</span><span class="brand-icon">m</span> Middle-earth</div><div class="feature-copy"><h1 class="show-title"><span>INTERACTIVE AUDIO</span>Before<br>Sauron</h1><div class="show-meta">History<i>•</i>9 min<i>•</i>Episode 1</div><p>A world was made. Then Morgoth wanted to own it. This is where the Ring’s story really begins.</p><button class="go" id="play">Play episode</button></div><div class="dots"><i></i><i></i><i></i><i></i><i></i></div></section><section class="rail-wrap"><h2 class="rail-title">Up Next in Middle-earth</h2><div class="rail"><a class="item" href="#" data-title="Before Sauron"><div class="poster before"></div><strong>Before Sauron</strong><small>Episode 1</small></a><a class="item" href="#" data-title="The First Age"><div class="poster first"></div><strong>The First Age</strong><small>Episode 2</small></a><a class="item" href="#" data-title="The Rings of Power"><div class="poster rings"></div><strong>The Rings of Power</strong><small>Episode 3</small></a><a class="item" href="#" data-title="The Third Age"><div class="poster third"></div><strong>The Third Age</strong><small>Episode 4</small></a><a class="item" href="#" data-title="After the Ring"><div class="poster after"></div><strong>After the Ring</strong><small>Episode 5</small></a></div></section><section class="section"><h2>Continue Listening</h2><button class="continue" id="continue"><img src="assets/before-sauron-hero.png" alt=""><span><small>Episode 1 · Not started</small><strong>Before Sauron</strong></span></button></section></main></div><section class="player" id="player"><div class="player-art"></div><button class="exit" id="exit" aria-label="Close player">×</button><div class="player-copy"><div class="eyebrow">Episode 1 · Narrated by Isabella</div><h2 id="playing">Before Sauron</h2><p>A simple, guided way into the world before the Ring. Pause at any point and ask for the deeper story.</p><div class="preview">Voice test: Isabella’s approved 5-second preview. The full episode is not yet rendered.</div><div class="timeline"><b id="fill"></b></div><div class="times"><span id="time">0:00</span><span>0:05 preview</span></div><div class="controls"><button class="round" id="audio">▶</button><button class="ask" id="ask">Ask Isabella</button></div><audio id="isabella"><source src="../../media/outbound/middle-earth-narrator-isabella.mp3" type="audio/mpeg"></audio></div><aside class="panel" id="panel"><h3>Ask Isabella</h3><p>These answers use the research base for Episode 1.</p><div class="quick"><button data-answer="morgoth">Who is Morgoth?</button><button data-answer="ring">Why does the Ring matter?</button><button data-answer="maia">What is a Maia?</button></div><div class="answer" id="answer"></div><form class="question" id="form"><input id="input" placeholder="Ask about the story…"><button>Ask</button></form></aside></section><script>const $=x=>document.getElementById(x),p=$('player'),a=$('isabella'),answers={morgoth:'Morgoth is the later name of Melkor, the first great enemy. Sauron serves him in the First Age and later continues his project of controlling Middle-earth.',ring:'The One Ring contains much of Sauron’s own power. He made it to dominate the other Rings and their wearers; destroying it ends his power to rule.',maia:'A Maia is a spiritual being beneath the Valar but far beyond ordinary people. Sauron, Gandalf, Saruman and Melian are all Maiar.'};function open(t='Before Sauron'){p.classList.add('open');$('playing').textContent=t;document.body.style.overflow='hidden'}function close(){a.pause();p.classList.remove('open');document.body.style.overflow=''}function answer(t){$('answer').textContent=t;$('answer').classList.add('show')}$('play').onclick=()=>open();$('continue').onclick=()=>open();$('exit').onclick=close;document.querySelectorAll('[data-title]').forEach(x=>x.onclick=e=>{e.preventDefault();open(x.dataset.title)});$('audio').onclick=()=>a.paused?a.play():a.pause();a.onplay=()=>$('audio').textContent='❚❚';a.onpause=()=>$('audio').textContent='▶';a.ontimeupdate=()=>{$('time').textContent='0:0'+Math.floor(a.currentTime);$('fill').style.width=(a.currentTime/(a.duration||5)*100)+'%'};$('ask').onclick=()=>{$('panel').classList.toggle('show');$('input').focus()};document.querySelectorAll('[data-answer]').forEach(x=>x.onclick=()=>answer(answers[x.dataset.answer]));$('form').onsubmit=e=>{e.preventDefault();let q=$('input').value.toLowerCase();answer(q.includes('morgoth')||q.includes('melkor')?answers.morgoth:q.includes('ring')||q.includes('sauron')?answers.ring:q.includes('maia')||q.includes('gandalf')?answers.maia:'This test currently answers the Episode 1 questions: Morgoth, Sauron, the Ring and Maiar.');$('input').value=''};</script></body></html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>Middle-earth · Interactive audio</title>
+    <style>
+      @import url("https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Instrument+Serif:ital@0;1&display=swap");
+      :root {
+        --bg: #000;
+        --ink: #f5f5f7;
+        --muted: #a6a6ab;
+      }
+      * {
+        box-sizing: border-box;
+      }
+      html,
+      body {
+        margin: 0;
+        background: #000;
+        color: var(--ink);
+        font-family: "DM Sans", Arial, sans-serif;
+      }
+      button,
+      input {
+        font: inherit;
+      }
+      button {
+        cursor: pointer;
+      }
+      button:focus-visible,
+      input:focus-visible {
+        outline: 3px solid #fff;
+        outline-offset: 3px;
+      }
+      .page {
+        padding: 14px;
+        min-height: 100vh;
+        background: #000;
+      }
+      .home {
+        max-width: 1920px;
+        margin: auto;
+        overflow: hidden;
+      }
+      .featured {
+        height: min(645px, 75vh);
+        min-height: 515px;
+        position: relative;
+        border-radius: 3px;
+        overflow: hidden;
+        display: flex;
+        align-items: flex-end;
+        padding: 0 clamp(40px, 4.25vw, 70px) 117px;
+        isolation: isolate;
+      }
+      .featured:before {
+        content: "";
+        position: absolute;
+        inset: 0;
+        background:
+          linear-gradient(
+            90deg,
+            #080909 0%,
+            #080909d9 18%,
+            #08090974 39%,
+            #08090906 68%
+          ),
+          linear-gradient(0deg, #000 0%, #0000 37%),
+          url("assets/before-sauron-hero.png") 54% center/cover;
+        z-index: -1;
+      }
+      .brand {
+        position: absolute;
+        z-index: 2;
+        top: 37px;
+        left: clamp(26px, 3vw, 43px);
+        height: 39px;
+        padding: 0 17px 0 11px;
+        border-radius: 22px;
+        background: #151517d9;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        font-size: 17px;
+        font-weight: 700;
+      }
+      .brand-icon {
+        width: 24px;
+        height: 24px;
+        border-radius: 50%;
+        background: #000;
+        border: 1px solid #444;
+        display: grid;
+        place-items: center;
+        font:
+          16px Georgia,
+          serif;
+      }
+      .back {
+        font-size: 31px;
+        line-height: 1;
+        font-weight: 300;
+        color: #fff;
+      }
+      .feature-copy {
+        max-width: 425px;
+      }
+      .show-title {
+        font-family: "Instrument Serif", Georgia, serif;
+        font-size: clamp(56px, 5vw, 79px);
+        font-weight: 400;
+        line-height: 0.82;
+        letter-spacing: -0.07em;
+        margin: 0 0 15px;
+      }
+      .show-title span {
+        display: block;
+        font-family: "DM Sans", Arial, sans-serif;
+        font-size: 0.39em;
+        font-weight: 700;
+        letter-spacing: 0.17em;
+        line-height: 1.1;
+        margin: 2px 0 8px;
+      }
+      .show-meta {
+        font-size: 13px;
+        font-weight: 600;
+        margin-bottom: 12px;
+      }
+      .show-meta i {
+        font-style: normal;
+        color: #bbb;
+        margin: 0 7px;
+      }
+      .feature-copy p {
+        max-width: 370px;
+        margin: 0 0 18px;
+        font-size: 15px;
+        line-height: 1.42;
+      }
+      .go {
+        border: 0;
+        border-radius: 7px;
+        background: #f5f5f7;
+        color: #111;
+        padding: 13px 39px;
+        font-size: 16px;
+        font-weight: 700;
+      }
+      .dots {
+        position: absolute;
+        z-index: 2;
+        bottom: 127px;
+        left: 50%;
+        transform: translateX(-50%);
+        display: flex;
+        gap: 7px;
+      }
+      .dots i {
+        width: 7px;
+        height: 7px;
+        background: #68686b;
+        border-radius: 50%;
+      }
+      .dots i:first-child {
+        background: #eee;
+      }
+      .rail-wrap {
+        position: relative;
+        z-index: 3;
+        margin-top: -102px;
+        padding-left: clamp(40px, 4.25vw, 70px);
+      }
+      .rail-title {
+        font-size: 23px;
+        letter-spacing: -0.04em;
+        margin: 0 0 9px;
+        font-weight: 700;
+      }
+      .rail {
+        display: flex;
+        gap: 25px;
+        overflow-x: auto;
+        padding: 0 20px 28px 0;
+        scrollbar-width: none;
+      }
+      .rail::-webkit-scrollbar {
+        display: none;
+      }
+      .item {
+        flex: 0 0 min(16.4vw, 215px);
+        min-width: 170px;
+        color: #fff;
+        text-decoration: none;
+      }
+      .poster {
+        width: 100%;
+        aspect-ratio: 1.77;
+        border-radius: 14px;
+        background-position: center;
+        background-size: cover;
+        box-shadow: 0 7px 16px #0007;
+        transition:
+          transform 0.18s,
+          box-shadow 0.18s;
+      }
+      .item:hover .poster {
+        transform: scale(1.035);
+        box-shadow: 0 13px 26px #000;
+      }
+      .item strong {
+        display: block;
+        margin-top: 8px;
+        font-size: 16px;
+        line-height: 1.15;
+      }
+      .item small {
+        display: block;
+        color: #95959a;
+        font-size: 15px;
+        margin-top: 1px;
+      }
+      .before {
+        background-image: url("assets/before-sauron-hero.png");
+      }
+      .first {
+        background-image: url("assets/first-age-catalogue.png");
+      }
+      .rings {
+        background-image: url("assets/rings-catalogue.png");
+      }
+      .third {
+        background-image: url("assets/third-age-catalogue.png");
+      }
+      .after {
+        background-image: url("assets/after-ring-catalogue.png");
+      }
+      .section {
+        padding: 4px clamp(40px, 4.25vw, 70px) 42px;
+      }
+      .section h2 {
+        font-size: 23px;
+        letter-spacing: -0.04em;
+        margin: 0 0 10px;
+      }
+      .continue {
+        display: flex;
+        align-items: center;
+        gap: 14px;
+        min-width: 325px;
+        padding: 9px;
+        border: 0;
+        border-radius: 8px;
+        background: #1d1d20;
+        color: #fff;
+        text-align: left;
+      }
+      .continue img {
+        width: 119px;
+        height: 67px;
+        object-fit: cover;
+        border-radius: 5px;
+      }
+      .continue small {
+        color: #a1a1a6;
+      }
+      .continue strong {
+        display: block;
+        margin-top: 2px;
+      }
+      .player {
+        display: none;
+        position: fixed;
+        z-index: 10;
+        inset: 0;
+        background: #000;
+      }
+      .player.open {
+        display: block;
+      }
+      .player-art {
+        position: absolute;
+        inset: 0;
+        background:
+          linear-gradient(0deg, #000 0%, #000b 34%, #0001 74%, #0008),
+          url("assets/before-sauron-hero.png") center/cover;
+      }
+      .exit {
+        position: absolute;
+        z-index: 2;
+        top: 26px;
+        left: 30px;
+        width: 38px;
+        height: 38px;
+        border: 0;
+        border-radius: 50%;
+        background: #222c;
+        color: #fff;
+        font-size: 25px;
+      }
+      .player-copy {
+        position: absolute;
+        z-index: 1;
+        left: clamp(28px, 9vw, 150px);
+        right: clamp(28px, 9vw, 150px);
+        bottom: 8vh;
+      }
+      .player-copy .eyebrow {
+        font-size: 12px;
+        font-weight: 700;
+        letter-spacing: 0.1em;
+        text-transform: uppercase;
+      }
+      .player-copy h2 {
+        font-family: "Instrument Serif", Georgia, serif;
+        font-size: clamp(45px, 5vw, 74px);
+        letter-spacing: -0.06em;
+        line-height: 0.85;
+        margin: 7px 0 13px;
+      }
+      .player-copy p {
+        max-width: 570px;
+        margin: 0;
+        color: #ddd;
+        line-height: 1.46;
+      }
+      .preview {
+        font-size: 12px;
+        color: #b0b0b4;
+        margin-top: 10px;
+      }
+      .timeline {
+        height: 4px;
+        background: #ffffff55;
+        margin-top: 20px;
+      }
+      .timeline b {
+        display: block;
+        height: 100%;
+        width: 0;
+        background: white;
+      }
+      .times {
+        display: flex;
+        justify-content: space-between;
+        font-size: 12px;
+        margin: 7px 0 13px;
+        color: #cacacf;
+      }
+      .controls {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+      }
+      .round {
+        height: 45px;
+        width: 45px;
+        border: 0;
+        border-radius: 50%;
+        background: #fff;
+        color: #000;
+        font-weight: 700;
+      }
+      .ask {
+        border: 1px solid #ffffff4b;
+        background: #ffffff1e;
+        color: #fff;
+        border-radius: 6px;
+        padding: 11px 14px;
+        font-weight: 600;
+      }
+      .panel {
+        display: none;
+        position: absolute;
+        z-index: 3;
+        right: clamp(18px, 5vw, 78px);
+        bottom: 8vh;
+        width: min(415px, calc(100% - 36px));
+        background: #19191cdf;
+        border: 1px solid #ffffff2a;
+        border-radius: 10px;
+        padding: 20px;
+        box-shadow: 0 22px 60px #000b;
+        backdrop-filter: blur(16px);
+      }
+      .panel.show {
+        display: block;
+      }
+      .panel h3 {
+        font-size: 18px;
+        margin: 0 0 5px;
+      }
+      .panel p {
+        font-size: 13px;
+        color: #c7c7ca;
+        margin: 0 0 13px;
+        line-height: 1.42;
+      }
+      .quick {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 7px;
+        margin-bottom: 12px;
+      }
+      .quick button {
+        border: 1px solid #ffffff3d;
+        border-radius: 15px;
+        background: #ffffff13;
+        color: #fff;
+        padding: 7px 10px;
+        font-size: 12px;
+      }
+      .answer {
+        display: none;
+        padding: 10px;
+        border-left: 2px solid #fff;
+        background: #080809a6;
+        font-size: 13px;
+        line-height: 1.45;
+        margin-bottom: 12px;
+      }
+      .answer.show {
+        display: block;
+      }
+      .question {
+        display: flex;
+        gap: 7px;
+      }
+      .question input {
+        min-width: 0;
+        flex: 1;
+        padding: 10px;
+        border: 1px solid #ffffff38;
+        border-radius: 5px;
+        background: #080809;
+        color: #fff;
+        font-size: 12px;
+      }
+      .question button {
+        border: 0;
+        border-radius: 5px;
+        background: #fff;
+        color: #000;
+        padding: 0 11px;
+        font-size: 12px;
+        font-weight: 700;
+      }
+      @media (max-width: 700px) {
+        .page {
+          padding: 0;
+        }
+        .featured {
+          min-height: 550px;
+          height: 72vh;
+          border-radius: 0;
+          padding: 0 25px 112px;
+        }
+        .featured:before {
+          background-image:
+            linear-gradient(0deg, #000 0%, #0000 66%),
+            url("assets/before-sauron-hero.png");
+          background-position: 60% center;
+        }
+        .brand {
+          top: 22px;
+          left: 19px;
+        }
+        .show-title {
+          font-size: 61px;
+        }
+        .rail-wrap {
+          margin-top: -91px;
+          padding-left: 20px;
+        }
+        .rail-title {
+          font-size: 20px;
+        }
+        .rail {
+          gap: 16px;
+        }
+        .item {
+          flex-basis: 64vw;
+        }
+        .section {
+          padding: 4px 20px 34px;
+        }
+        .dots {
+          bottom: 114px;
+        }
+        .player-copy {
+          left: 24px;
+          right: 24px;
+          bottom: 48px;
+        }
+        .panel {
+          right: 18px;
+          bottom: 20px;
+        }
+      }
+      @media (prefers-reduced-motion: reduce) {
+        * {
+          transition: none !important;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="page">
+      <main class="home">
+        <section class="featured">
+          <div class="brand">
+            <span class="back">‹</span
+            ><span class="brand-icon">m</span> Middle-earth
+          </div>
+          <div class="feature-copy">
+            <h1 class="show-title">
+              <span>INTERACTIVE AUDIO</span>Before<br />Sauron
+            </h1>
+            <div class="show-meta">History<i>•</i>20 min<i>•</i>Episode 1</div>
+            <p>
+              A world was made. Then Morgoth wanted to own it. This is where the
+              Ring’s story really begins.
+            </p>
+            <button class="go" id="play">Play episode</button>
+          </div>
+          <div class="dots"><i></i><i></i><i></i><i></i><i></i></div>
+        </section>
+        <section class="rail-wrap">
+          <h2 class="rail-title">Up Next in Middle-earth</h2>
+          <div class="rail">
+            <a class="item" href="#" data-title="Before Sauron"
+              ><div class="poster before"></div>
+              <strong>Before Sauron</strong><small>Episode 1</small></a
+            ><a class="item" href="#" data-title="The First Age"
+              ><div class="poster first"></div>
+              <strong>The First Age</strong><small>Episode 2</small></a
+            ><a class="item" href="#" data-title="The Rings of Power"
+              ><div class="poster rings"></div>
+              <strong>The Rings of Power</strong><small>Episode 3</small></a
+            ><a class="item" href="#" data-title="The Third Age"
+              ><div class="poster third"></div>
+              <strong>The Third Age</strong><small>Episode 4</small></a
+            ><a class="item" href="#" data-title="After the Ring"
+              ><div class="poster after"></div>
+              <strong>After the Ring</strong><small>Episode 5</small></a
+            >
+          </div>
+        </section>
+        <section class="section">
+          <h2>Continue Listening</h2>
+          <button class="continue" id="continue">
+            <img src="assets/before-sauron-hero.png" alt="" /><span
+              ><small>Episode 1 · Not started</small
+              ><strong>Before Sauron</strong></span
+            >
+          </button>
+        </section>
+      </main>
+    </div>
+    <section class="player" id="player">
+      <div class="player-art"></div>
+      <button class="exit" id="exit" aria-label="Close player">×</button>
+      <div class="player-copy">
+        <div class="eyebrow">Episode 1 · Narrated by Isabella</div>
+        <h2 id="playing">Before Sauron</h2>
+        <p>
+          A simple, guided way into the world before the Ring. Pause at any
+          point and ask for the deeper story.
+        </p>
+        <div class="preview">
+          Full Episode 1 · Isabella · 20 minutes 35 seconds
+        </div>
+        <div class="timeline"><b id="fill"></b></div>
+        <div class="times">
+          <span id="time">0:00</span><span>20:35</span>
+        </div>
+        <div class="controls">
+          <button class="round" id="audio">▶</button
+          ><button class="ask" id="ask">Ask Isabella</button>
+        </div>
+        <audio id="isabella">
+          <source
+            src="assets/episode-01-isabella-20min.mp3"
+            type="audio/mpeg"
+          />
+        </audio>
+      </div>
+      <aside class="panel" id="panel">
+        <h3>Ask Isabella</h3>
+        <p>These answers use the research base for Episode 1.</p>
+        <div class="quick">
+          <button data-answer="morgoth">Who is Morgoth?</button
+          ><button data-answer="ring">Why does the Ring matter?</button
+          ><button data-answer="maia">What is a Maia?</button>
+        </div>
+        <div class="answer" id="answer"></div>
+        <form class="question" id="form">
+          <input id="input" placeholder="Ask about the story…" /><button>
+            Ask
+          </button>
+        </form>
+      </aside>
+    </section>
+    <script>
+      const $ = (x) => document.getElementById(x),
+        p = $("player"),
+        a = $("isabella"),
+        answers = {
+          morgoth:
+            "Morgoth is the later name of Melkor, the first great enemy. Sauron serves him in the First Age and later continues his project of controlling Middle-earth.",
+          ring: "The One Ring contains much of Sauron’s own power. He made it to dominate the other Rings and their wearers; destroying it ends his power to rule.",
+          maia: "A Maia is a spiritual being beneath the Valar but far beyond ordinary people. Sauron, Gandalf, Saruman and Melian are all Maiar.",
+        };
+      function open(t = "Before Sauron") {
+        p.classList.add("open");
+        $("playing").textContent = t;
+        document.body.style.overflow = "hidden";
+      }
+      function close() {
+        a.pause();
+        p.classList.remove("open");
+        document.body.style.overflow = "";
+      }
+      function answer(t) {
+        $("answer").textContent = t;
+        $("answer").classList.add("show");
+      }
+      $("play").onclick = () => open();
+      $("continue").onclick = () => open();
+      $("exit").onclick = close;
+      document.querySelectorAll("[data-title]").forEach(
+        (x) =>
+          (x.onclick = (e) => {
+            e.preventDefault();
+            open(x.dataset.title);
+          }),
+      );
+      $("audio").onclick = () => (a.paused ? a.play() : a.pause());
+      a.onplay = () => ($("audio").textContent = "❚❚");
+      a.onpause = () => ($("audio").textContent = "▶");
+      a.ontimeupdate = () => {
+        const seconds = Math.floor(a.currentTime);
+        $("time").textContent = `${Math.floor(seconds / 60)}:${String(seconds % 60).padStart(2, "0")}`;
+        $("fill").style.width = (a.currentTime / (a.duration || 5)) * 100 + "%";
+      };
+      $("ask").onclick = () => {
+        $("panel").classList.toggle("show");
+        $("input").focus();
+      };
+      document
+        .querySelectorAll("[data-answer]")
+        .forEach((x) => (x.onclick = () => answer(answers[x.dataset.answer])));
+      $("form").onsubmit = (e) => {
+        e.preventDefault();
+        let q = $("input").value.toLowerCase();
+        answer(
+          q.includes("morgoth") || q.includes("melkor")
+            ? answers.morgoth
+            : q.includes("ring") || q.includes("sauron")
+              ? answers.ring
+              : q.includes("maia") || q.includes("gandalf")
+                ? answers.maia
+                : "This test currently answers the Episode 1 questions: Morgoth, Sauron, the Ring and Maiar.",
+        );
+        $("input").value = "";
+      };
+    </script>
+  </body>
+</html>
