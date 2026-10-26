@@ -51,7 +51,7 @@
         overflow: hidden;
         display: flex;
         align-items: flex-end;
-        padding: 0 clamp(40px, 4.25vw, 70px) 117px;
+        padding: 0 clamp(40px, 4.25vw, 70px) 78px;
         isolation: isolate;
       }
       .featured:before {
@@ -67,7 +67,7 @@
             #08090906 68%
           ),
           linear-gradient(0deg, #000 0%, #0000 37%),
-          url("assets/before-sauron-hero.png") 54% center/cover;
+          url("assets/before-sauron-eye-poster.png") center/cover;
         z-index: -1;
       }
       .brand {
@@ -151,7 +151,7 @@
       .dots {
         position: absolute;
         z-index: 2;
-        bottom: 127px;
+        bottom: 31px;
         left: 50%;
         transform: translateX(-50%);
         display: flex;
@@ -169,8 +169,8 @@
       .rail-wrap {
         position: relative;
         z-index: 3;
-        margin-top: -102px;
-        padding-left: clamp(40px, 4.25vw, 70px);
+        margin-top: 0;
+        padding: 31px 0 0 clamp(40px, 4.25vw, 70px);
       }
       .rail-title {
         font-size: 23px;
@@ -222,7 +222,7 @@
         margin-top: 1px;
       }
       .before {
-        background-image: url("assets/before-sauron-hero.png");
+        background-image: url("assets/before-sauron-eye-poster.png");
       }
       .first {
         background-image: url("assets/first-age-catalogue.png");
@@ -284,7 +284,7 @@
         inset: 0;
         background:
           linear-gradient(0deg, #000 0%, #000b 34%, #0001 74%, #0008),
-          url("assets/before-sauron-hero.png") center/cover;
+          url("assets/before-sauron-eye-poster.png") center/cover;
       }
       .exit {
         position: absolute;
@@ -370,6 +370,29 @@
         padding: 11px 14px;
         font-weight: 600;
       }
+      .ask .mic {
+        font-size: 16px;
+        margin-right: 6px;
+      }
+      .listen-status {
+        min-height: 20px;
+        margin: 0 0 12px;
+        color: #fff;
+        font-size: 13px;
+      }
+      .listen-status:empty {
+        display: none;
+      }
+      .voice-start {
+        width: 100%;
+        border: 0;
+        border-radius: 7px;
+        background: #fff;
+        color: #000;
+        padding: 11px 14px;
+        font-weight: 700;
+        margin-bottom: 12px;
+      }
       .panel {
         display: none;
         position: absolute;
@@ -451,16 +474,16 @@
           padding: 0;
         }
         .featured {
-          min-height: 550px;
-          height: 72vh;
+          min-height: 630px;
+          height: auto;
           border-radius: 0;
-          padding: 0 25px 112px;
+          padding: 0 25px 68px;
         }
         .featured:before {
           background-image:
             linear-gradient(0deg, #000 0%, #0000 66%),
-            url("assets/before-sauron-hero.png");
-          background-position: 60% center;
+            url("assets/before-sauron-eye-poster.png");
+          background-position: 80% center;
         }
         .brand {
           top: 22px;
@@ -470,8 +493,8 @@
           font-size: 61px;
         }
         .rail-wrap {
-          margin-top: -91px;
-          padding-left: 20px;
+          margin-top: 0;
+          padding: 27px 0 0 20px;
         }
         .rail-title {
           font-size: 20px;
@@ -486,7 +509,7 @@
           padding: 4px 20px 34px;
         }
         .dots {
-          bottom: 114px;
+          bottom: 24px;
         }
         .player-copy {
           left: 24px;
@@ -550,7 +573,7 @@
         <section class="section">
           <h2>Continue Listening</h2>
           <button class="continue" id="continue">
-            <img src="assets/before-sauron-hero.png" alt="" /><span
+            <img src="assets/before-sauron-eye-poster.png" alt="" /><span
               ><small>Episode 1 · Not started</small
               ><strong>Before Sauron</strong></span
             >
@@ -577,7 +600,7 @@
         </div>
         <div class="controls">
           <button class="round" id="audio">▶</button
-          ><button class="ask" id="ask">Ask Isabella</button>
+          ><button class="ask" id="ask"><span class="mic">🎙</span>Ask by voice</button>
         </div>
         <audio id="isabella">
           <source
@@ -588,7 +611,9 @@
       </div>
       <aside class="panel" id="panel">
         <h3>Ask Isabella</h3>
-        <p>These answers use the research base for Episode 1.</p>
+        <p>Tap the microphone and ask aloud. Isabella answers from the Episode 1 research base.</p>
+        <button class="voice-start" id="voice-start">🎙 Start voice question</button>
+        <div class="listen-status" id="listen-status" aria-live="polite"></div>
         <div class="quick">
           <button data-answer="morgoth">Who is Morgoth?</button
           ><button data-answer="ring">Why does the Ring matter?</button
@@ -626,8 +651,49 @@
         $("answer").textContent = t;
         $("answer").classList.add("show");
       }
-      $("play").onclick = () => open();
-      $("continue").onclick = () => open();
+      function startEpisode() {
+        open();
+        a.play().catch(() => {
+          $("listen-status").textContent = "Tap the round play button to begin audio.";
+        });
+      }
+      function listen() {
+        const Recognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+        $("panel").classList.add("show");
+        if (!Recognition) {
+          $("listen-status").textContent = "Voice input is not available in this browser. You can type below.";
+          return;
+        }
+        const recognition = new Recognition();
+        recognition.lang = "en-GB";
+        recognition.interimResults = false;
+        recognition.maxAlternatives = 1;
+        $("listen-status").textContent = "Listening… ask your question now.";
+        recognition.onresult = (event) => {
+          const question = event.results[0][0].transcript;
+          $("input").value = question;
+          $("listen-status").textContent = `You asked: “${question}”`;
+          respond(question);
+        };
+        recognition.onerror = () => {
+          $("listen-status").textContent = "I could not hear that. Please try the microphone again or type your question.";
+        };
+        recognition.start();
+      }
+      function respond(question) {
+        const q = question.toLowerCase();
+        answer(
+          q.includes("morgoth") || q.includes("melkor")
+            ? answers.morgoth
+            : q.includes("ring") || q.includes("sauron")
+              ? answers.ring
+              : q.includes("maia") || q.includes("gandalf")
+                ? answers.maia
+                : "This Episode 1 test currently answers questions about Morgoth, Sauron, the Ring and Maiar.",
+        );
+      }
+      $("play").onclick = startEpisode;
+      $("continue").onclick = startEpisode;
       $("exit").onclick = close;
       document.querySelectorAll("[data-title]").forEach(
         (x) =>
@@ -644,25 +710,14 @@
         $("time").textContent = `${Math.floor(seconds / 60)}:${String(seconds % 60).padStart(2, "0")}`;
         $("fill").style.width = (a.currentTime / (a.duration || 5)) * 100 + "%";
       };
-      $("ask").onclick = () => {
-        $("panel").classList.toggle("show");
-        $("input").focus();
-      };
+      $("ask").onclick = listen;
+      $("voice-start").onclick = listen;
       document
         .querySelectorAll("[data-answer]")
         .forEach((x) => (x.onclick = () => answer(answers[x.dataset.answer])));
       $("form").onsubmit = (e) => {
         e.preventDefault();
-        let q = $("input").value.toLowerCase();
-        answer(
-          q.includes("morgoth") || q.includes("melkor")
-            ? answers.morgoth
-            : q.includes("ring") || q.includes("sauron")
-              ? answers.ring
-              : q.includes("maia") || q.includes("gandalf")
-                ? answers.maia
-                : "This test currently answers the Episode 1 questions: Morgoth, Sauron, the Ring and Maiar.",
-        );
+        respond($("input").value);
         $("input").value = "";
       };
     </script>
